@@ -25,15 +25,63 @@ async function sendCode(){
   let phone=document.getElementById('phone').value.trim();
   if(!phone.startsWith('+')) phone = country + phone.replace(/\D/g,'');
   if(phone.length<8) return alert('Введи номер');
-  const res= await fetch('/api/auth/send-code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone})}).then(r=>r.json());
-  if(res.ok){
-    document.getElementById('authStep1').style.display='none';
-    document.getElementById('authStep2').style.display='block';
-    document.getElementById('devCode').style.display='block';
-    document.getElementById('devCode').textContent='Код (dev): '+res.dev_code;
-    document.getElementById('phone').dataset.phone=phone;
-  } else alert(res.error||'ошибка');
+  try{
+    const res= await fetch('/api/auth/send-code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone})}).then(r=>r.json());
+    if(res.ok){
+      document.getElementById('authStep1').style.display='none';
+      document.getElementById('authStep2').style.display='block';
+      document.getElementById('devCode').style.display='block';
+      document.getElementById('devCode').innerHTML='Код (dev): <b style="font-size:16px;cursor:pointer" onclick="document.getElementById(\'code\').value=\''+res.dev_code+'\'">'+res.dev_code+'</b> — нажми чтобы вставить';
+      document.getElementById('phone').dataset.phone=phone;
+      setTimeout(()=> document.getElementById('code').focus(),100);
+    } else alert(res.error||'ошибка: '+JSON.stringify(res));
+  } catch(e){ alert('Ошибка сети: '+e.message); }
 }
+function pasteCode(){
+  const hint=document.getElementById('devCode').textContent;
+  const m=hint.match(/(\d{5})/);
+  if(m) document.getElementById('code').value=m[1];
+}
+function clearToken(){ localStorage.removeItem('tg_token'); token=null; location.reload(); }
+async function quickDemo(){
+  const phone='+79990000001';
+  document.getElementById('phone').value=phone;
+  const s=await fetch('/api/auth/send-code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone})}).then(r=>r.json());
+  if(!s.ok) return alert('send-code fail');
+  const v=await fetch('/api/auth/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone, code:s.dev_code})}).then(r=>r.json());
+  if(v.token){ token=v.token; localStorage.setItem('tg_token', token); me=v.user; document.getElementById('auth').style.display='none'; document.getElementById('app').classList.add('show'); init(); }
+  else alert('verify fail: '+v.error);
+}
+function buildDemoChips(){
+  const el=document.getElementById('demoChips'); if(!el) return;
+  const demos=[
+    {phone:'+79990000001', name:'Алексей @alex'},
+    {phone:'+79990000002', name:'Мария @maria ⭐'},
+    {phone:'+79990000003', name:'Дима @dima'},
+    {phone:'+79990000005', name:'Анна @anna'},
+  ];
+  el.innerHTML='';
+  demos.forEach(d=>{
+    const b=document.createElement('button'); b.className='btn-ghost'; b.style.fontSize='12px'; b.style.border='1px solid #243447'; b.textContent=d.name;
+    b.onclick=async()=>{
+      document.getElementById('phone').value=d.phone;
+      const s=await fetch('/api/auth/send-code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:d.phone})}).then(r=>r.json());
+      if(s.ok){
+        document.getElementById('authStep1').style.display='none';
+        document.getElementById('authStep2').style.display='block';
+        document.getElementById('devCode').style.display='block';
+        document.getElementById('devCode').innerHTML='Код: <b style="font-size:18px">'+s.dev_code+'</b> — авто-вход через 0.5с';
+        document.getElementById('phone').dataset.phone=d.phone;
+        setTimeout(async()=>{
+          const v=await fetch('/api/auth/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:d.phone, code:s.dev_code})}).then(r=>r.json());
+          if(v.token){ token=v.token; localStorage.setItem('tg_token', token); me=v.user; document.getElementById('auth').style.display='none'; document.getElementById('app').classList.add('show'); init(); }
+        },500);
+      }
+    };
+    el.appendChild(b);
+  });
+}
+setTimeout(buildDemoChips,500);
 function backToPhone(){ document.getElementById('authStep1').style.display='block'; document.getElementById('authStep2').style.display='none'; }
 async function verifyCode(){
   const phone=document.getElementById('phone').dataset.phone || document.getElementById('phone').value.trim();
@@ -47,12 +95,13 @@ async function verifyCode(){
   if(res.token){ token=res.token; localStorage.setItem('tg_token', token); me=res.user; document.getElementById('auth').style.display='none'; document.getElementById('app').classList.add('show'); init(); }
 }
 async function init(){
-  me = await api('/api/me');
-  if(!me || me.error){ localStorage.removeItem('tg_token'); location.reload(); return; }
-  gifts = await api('/api/gifts');
-  communities = await api('/api/communities');
-  bots = await api('/api/bots');
-  stories = await api('/api/stories');
+  try{
+    me = await api('/api/me');
+    if(!me || me.error){ localStorage.removeItem('tg_token'); location.reload(); return; }
+    gifts = await api('/api/gifts'); if(!Array.isArray(gifts)) gifts=[];
+    try{ communities = await api('/api/communities'); if(!Array.isArray(communities)) communities=[]; }catch{ communities=[]; }
+    try{ bots = await api('/api/bots'); if(!Array.isArray(bots)) bots=[]; }catch{ bots=[]; }
+    try{ stories = await api('/api/stories'); if(!Array.isArray(stories)) stories=[]; }catch{ stories=[]; }
   buildEmoji(); buildGifts(); renderStoriesReel(); await loadChats(); connectSocket(); renderDrawer();
   if(chats[0]) openChat(chats[0].id);
   syncPremiumUI();
