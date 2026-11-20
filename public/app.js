@@ -102,9 +102,10 @@ async function init(){
     try{ communities = await api('/api/communities'); if(!Array.isArray(communities)) communities=[]; }catch{ communities=[]; }
     try{ bots = await api('/api/bots'); if(!Array.isArray(bots)) bots=[]; }catch{ bots=[]; }
     try{ stories = await api('/api/stories'); if(!Array.isArray(stories)) stories=[]; }catch{ stories=[]; }
-  buildEmoji(); buildGifts(); renderStoriesReel(); await loadChats(); connectSocket(); renderDrawer();
-  if(chats[0]) openChat(chats[0].id);
-  syncPremiumUI();
+    buildEmoji(); buildGifts(); renderStoriesReel(); await loadChats(); connectSocket(); renderDrawer();
+    if(chats[0]) openChat(chats[0].id);
+    syncPremiumUI();
+  } catch(e){ console.error(e); alert('Init error: '+e.message); }
 }
 function connectSocket(){
   socket=io();
@@ -410,8 +411,10 @@ async function startVoice(e){
     mediaRecorder.start(); isRecording=true; recStart=Date.now();
     document.getElementById('recordBtn').classList.add('recording'); document.getElementById('recordBtn').textContent='⏹';
     document.getElementById('typingHint').style.display='block'; document.getElementById('typingHint').textContent='● Запись... отпусти чтобы отправить';
-  }catch{ isRecording=true; recStart=Date.now(); document.getElementById('recordBtn').classList.add('recording'); document.getElementById('typingHint').style.display='block'; document.getElementById('typingHint').textContent='● Запись (демо)'; }
-  catch(err){ alert('Mic: '+err.message); }
+  } catch(err){ 
+    if(err.name==='NotAllowedError') alert('Разреши микрофон');
+    else { isRecording=true; recStart=Date.now(); document.getElementById('recordBtn').classList.add('recording'); document.getElementById('typingHint').style.display='block'; document.getElementById('typingHint').textContent='● Запись (демо)'; }
+  }
 }
 async function stopVoice(e){ e.preventDefault(); if(!isRecording) return; isRecording=false; document.getElementById('recordBtn').classList.remove('recording'); document.getElementById('recordBtn').textContent='🎙️'; document.getElementById('typingHint').style.display='none'; if(mediaRecorder && mediaRecorder.state!=='inactive') mediaRecorder.stop(); else { const dur=Math.max(1, Math.round((Date.now()-recStart)/1000)); const fd=new FormData(); fd.append('type','voice'); fd.append('content',''); fd.append('duration', dur); fd.append('waveform', JSON.stringify(Array.from({length:30},()=>6+Math.random()*18|0))); if(replyTo) fd.append('reply_to', replyTo); await fetch(`/api/chats/${activeId}/messages`,{method:'POST', headers:{'x-token':token}, body:fd}); loadMessages(activeId); } }
 function playVoice(btn, src){ if(btn._audio){ if(!btn._audio.paused){ btn._audio.pause(); btn.textContent='▶'; return;} else { btn._audio.play(); btn.textContent='⏸'; return; } } if(!src || src===''){ btn.textContent='▶'; return; } const a=new Audio(src); btn._audio=a; a.play(); btn.textContent='⏸'; a.onended=()=> btn.textContent='▶'; a.onerror=()=> btn.textContent='▶'; }
