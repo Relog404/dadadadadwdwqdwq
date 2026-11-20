@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Telegram</title>
+<title>Telegram — аналог 2026</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 </head>
 <body>
 
@@ -12,12 +14,9 @@
   <div class="auth-card">
     <div class="auth-logo">✈️</div>
     <h1>Telegram</h1>
-    <p>Быстрый и безопасный мессенджер.<br>Вход по номеру телефона — как в оригинале.</p>
+    <p>Быстрый и безопасный мессенджер.<br>Вход по номеру — как в оригинале.</p>
     <div id="authStep1" class="auth-form">
-      <div class="auth-field">
-        <label>Страна</label>
-        <select id="country"><option value="+7">Россия +7</option><option value="+375">Беларусь +375</option><option value="+380">Украина +380</option><option value="+77">Казахстан +77</option><option value="+998">Узбекистан +998</option><option value="+1">USA +1</option></select>
-      </div>
+      <div class="auth-field"><label>Страна</label><select id="country"><option value="+7">Россия +7</option><option value="+375">Беларусь +375</option><option value="+380">Украина +380</option><option value="+77">Казахстан +77</option><option value="+998">Узбекистан +998</option><option value="+1">USA +1</option></select></div>
       <div class="auth-field"><label>Номер телефона</label><input id="phone" placeholder="+7 999 000 00 00" value="+79990000001"></div>
       <div style="padding:12px"><button class="btn-tg" onclick="sendCode()">Далее →</button><div id="devCode" class="code-hint" style="display:none"></div></div>
     </div>
@@ -30,7 +29,7 @@
       </div>
       <div style="padding:12px"><button class="btn-tg" onclick="verifyCode()">Войти</button><button class="btn-ghost" onclick="backToPhone()">← Назад</button><div id="verifyErr" style="color:#ff6b6b;font-size:12px;margin-top:8px"></div></div>
     </div>
-    <p style="margin-top:14px;color:#5a8ab0;font-size:12px">Демо: введи любой номер из списка — код покажется сразу. Тестовый: +79990000001 … +79990000006</p>
+    <p style="margin-top:14px;color:#5a8ab0;font-size:12px">Тест: +79990000001 … 06 — код покажется сразу</p>
   </div>
 </div>
 
@@ -38,13 +37,24 @@
   <div id="sidebar" class="sidebar">
     <div class="sb-top">
       <button class="menu-btn" onclick="openMenu()">☰</button>
-      <div class="search-wrap"><input id="search" placeholder="Поиск" oninput="renderChats()"></div>
+      <div class="search-wrap"><input id="search" placeholder="Поиск (текст, @юзер, отправитель)" oninput="renderChats()"></div>
+    </div>
+    <!-- Stories reel -->
+    <div id="storiesReel" class="stories-reel"></div>
+    <!-- view switcher -->
+    <div class="view-tabs">
+      <button class="view-tab active" data-v="chats" onclick="switchView('chats')">Чаты</button>
+      <button class="view-tab" data-v="communities" onclick="switchView('communities')">Сообщества</button>
+      <button class="view-tab" data-v="bots" onclick="switchView('bots')">Боты</button>
+      <button class="view-tab" data-v="gifts" onclick="switchView('gifts')">Подарки</button>
     </div>
     <div id="chatList" class="chat-list"></div>
-    <div style="padding:8px;border-top:1px solid #101921;display:flex;gap:8px">
-      <button class="btn-ghost" style="flex:1" onclick="openCreate('private')">💬 Новый чат</button>
+    <div id="viewContent" class="chat-list" style="display:none"></div>
+    <div style="padding:8px;border-top:1px solid #101921;display:flex;gap:6px;flex-wrap:wrap">
+      <button class="btn-ghost" onclick="openCreate('private')">💬 Чат</button>
       <button class="btn-ghost" onclick="openCreate('group')">👥 Группа</button>
       <button class="btn-ghost" onclick="openCreate('channel')">📢 Канал</button>
+      <button class="btn-ghost" onclick="openCreate('secret')">🔒 Секрет</button>
     </div>
   </div>
 
@@ -55,6 +65,25 @@
     <div id="messages" class="messages"><div class="messages-inner" id="messagesInner"></div></div>
 
     <div id="composer" class="composer" style="display:none">
+      <div id="richToolbar" class="rich-toolbar">
+        <button onclick="rich('heading',1)" title="Заголовок">H1</button>
+        <button onclick="rich('heading',2)" title="Подзаголовок">H2</button>
+        <button onclick="rich('bold')" title="Жирный"><b>B</b></button>
+        <button onclick="rich('italic')" title="Курсив"><i>I</i></button>
+        <button onclick="rich('underline')" title="Подчёркнутый"><u>U</u></button>
+        <button onclick="rich('strike')" title="Зачёркнутый"><s>S</s></button>
+        <button onclick="rich('mono')" title="Моно">`</button>
+        <button onclick="rich('spoiler')" title="Спойлер">👁</button>
+        <button onclick="rich('quote')" title="Цитата">❝</button>
+        <button onclick="rich('code')" title="Код">{ }</button>
+        <button onclick="rich('list')" title="Список">≡</button>
+        <button onclick="rich('checklist')" title="Чек-лист">☑</button>
+        <button onclick="rich('table')" title="Таблица">▦</button>
+        <button onclick="rich('math')" title="Формула">∑</button>
+        <button onclick="rich('details')" title="Сворачиваемый">▸</button>
+        <button onclick="rich('link')" title="Ссылка">🔗</button>
+        <button onclick="aiGenerate()" title="AI генерация">✦ AI</button>
+      </div>
       <div id="replyBar" class="reply-bar"><div style="flex:1"><b id="replyName" style="color:#5288c1;font-size:13px"></b><div id="replyText" style="color:#a8afb8;font-size:13px"></div></div><button class="icon-btn" onclick="cancelReply()">✕</button></div>
       <div id="editBar" class="reply-bar"><div style="flex:1"><b style="color:#eab308;font-size:13px">Редактирование</b><div id="editText" style="font-size:13px;color:#a8afb8"></div></div><button class="icon-btn" onclick="cancelEdit()">✕</button></div>
 
@@ -62,32 +91,26 @@
         <div class="attach">
           <button class="icon-btn" onclick="toggleAttach()">📎</button>
           <div id="attachPanel" class="attach-panel">
-            <button onclick="triggerPhoto()">🖼️ Фото или видео</button>
-            <button onclick="triggerFile()">📄 Файл</button>
+            <button onclick="triggerPhoto()">🖼️ Фото/видео</button>
+            <button onclick="triggerFile()">📄 Файл (2 ГБ / 4 ГБ)</button>
+            <button onclick="openPoll()">📊 Опрос</button>
             <button onclick="sendLocation()">📍 Геолокация</button>
-            <button onclick="startVideoCircle()">⭕ Видеосообщение</button>
+            <button onclick="startVideoCircle()">⭕ Кружок</button>
             <button onclick="openGifts()">🎁 Подарок</button>
+            <button onclick="toggleRich()">✎ Форматирование</button>
           </div>
         </div>
-
         <div class="input-wrap" style="position:relative;flex:1">
-          <textarea id="msgInput" rows="1" placeholder="Написать сообщение..." onkeydown="onKey(event)" oninput="autoGrow(this); onTyping()"></textarea>
+          <div id="msgInput" class="msg-input" contenteditable="true" placeholder="Написать сообщение..." onkeydown="onKey(event)" oninput="onTyping(); syncInput()"></div>
           <button class="icon-btn" onclick="toggleEmoji()" style="width:32px;height:32px">😊</button>
-          <!-- emoji panel inside -->
-          <div id="emojiPanel" class="emoji-panel">
-            <div class="emoji-head" id="emojiHead"></div>
-            <div class="emoji-grid" id="emojiGrid"></div>
-          </div>
-          <div id="giftsPanel" class="gifts-panel">
-            <div style="padding:10px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #243447"><b>Подарки</b><button class="icon-btn" onclick="toggleGifts()" style="width:28px;height:28px">✕</button></div>
-            <div id="giftsGrid" class="gifts-grid"></div>
-          </div>
+          <div id="emojiPanel" class="emoji-panel"><div class="emoji-head" id="emojiHead"></div><div class="emoji-grid" id="emojiGrid"></div></div>
+          <div id="giftsPanel" class="gifts-panel"><div style="padding:10px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #243447"><b>Подарки • Stars <span id="starsBal">0 ⭐</span></b><button class="icon-btn" onclick="toggleGifts()" style="width:28px;height:28px">✕</button></div><div id="giftsGrid" class="gifts-grid"></div><div style="padding:8px"><button class="btn-tg" onclick="topupStars()">+100 ⭐</button></div></div>
         </div>
-
-        <button id="recordBtn" class="record" title="Зажми для записи" onmousedown="startVoice(event)" onmouseup="stopVoice(event)" ontouchstart="startVoice(event)" ontouchend="stopVoice(event)" ontouchcancel="stopVoice(event)">🎙️</button>
+        <button id="recordBtn" class="record" title="Зажми для записи ГС" onmousedown="startVoice(event)" onmouseup="stopVoice(event)" ontouchstart="startVoice(event)" ontouchend="stopVoice(event)">🎙️</button>
         <button id="sendBtn" class="send" onclick="sendMessage()">➤</button>
       </div>
       <div id="typingHint" class="typing" style="display:none"></div>
+      <div id="autoDelHint" style="font-size:11px;color:#a8afb8;display:none"></div>
       <input id="photoInput" type="file" accept="image/*,video/*" hidden onchange="handlePhoto(this)">
       <input id="fileInput" type="file" hidden onchange="handleFile(this)">
     </div>
@@ -99,45 +122,126 @@
   </div>
 </div>
 
-<!-- menus -->
+<!-- Left Drawer -->
 <div id="leftDrawer" class="modal" onclick="if(event.target===this)closeLeft()">
-  <div style="position:absolute;left:0;top:0;bottom:0;width:300px;background:#17212b;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:8px 0 24px rgba(0,0,0,.4);overflow:auto">
+  <div style="position:absolute;left:0;top:0;bottom:0;width:320px;background:#17212b;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:8px 0 24px rgba(0,0,0,.4);overflow:auto">
     <div style="display:flex;align-items:center;gap:10px;padding:8px 0">
       <div id="drawerAvatar" style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#5288c1,#2b5278);display:grid;place-items:center;color:#fff;font-weight:700">U</div>
-      <div><div id="drawerName" style="font-weight:600">User</div><div id="drawerPhone" style="font-size:12px;color:#a8afb8"></div></div>
+      <div style="flex:1"><div id="drawerName" style="font-weight:600">User</div><div id="drawerPhone" style="font-size:12px;color:#a8afb8"></div><div id="drawerStars" style="font-size:12px;color:#facc15"></div></div>
     </div>
-    <button class="btn-ghost" onclick="openProfile();closeLeft()">⚙️ Настройки</button>
+    <button class="btn-ghost" onclick="openProfile();closeLeft()">⚙️ Профиль</button>
+    <button class="btn-ghost" onclick="openPremium();closeLeft()">⭐ Premium</button>
+    <button class="btn-ghost" onclick="openBusiness();closeLeft()">💼 Бизнес</button>
+    <button class="btn-ghost" onclick="openPrivacy();closeLeft()">🔐 Приватность</button>
+    <button class="btn-ghost" onclick="openStories();closeLeft()">🟣 Истории</button>
+    <button class="btn-ghost" onclick="openFragment();closeLeft()">🛒 Fragment</button>
     <button class="btn-ghost" onclick="openCreate('group');closeLeft()">👥 Новая группа</button>
     <button class="btn-ghost" onclick="openCreate('channel');closeLeft()">📢 Новый канал</button>
-    <button class="btn-ghost" onclick="openGifts();closeLeft()">🎁 Подарки</button>
+    <button class="btn-ghost" onclick="openCommunityCreate();closeLeft()">🏘️ Сообщество</button>
     <div style="margin-top:auto"><button class="btn-ghost" style="color:#ff6b6b" onclick="logout()">Выйти</button></div>
   </div>
 </div>
 
+<!-- Modals -->
 <div id="createModal" class="modal" onclick="if(event.target===this)closeModal('createModal')">
   <div class="modal-card">
     <h3 id="createTitle">Создать</h3>
     <div class="field"><label>Название</label><input id="createName" placeholder="Название"></div>
-    <div class="field"><label>Юзернейм (для канала, без @)</label><input id="createUsername" placeholder="my_channel"></div>
+    <div class="field"><label>Юзернейм (t.me/...)</label><input id="createUsername" placeholder="my_channel"></div>
     <div class="field"><label>Описание</label><textarea id="createDesc" rows="2"></textarea></div>
-    <div id="createMembersField" class="field"><label>Добавить участников (юзернеймы через запятую)</label><input id="createMembers" placeholder="maria, dima"></div>
+    <div id="createMembersField" class="field"><label>Участники (юзернеймы через запятую)</label><input id="createMembers" placeholder="maria, dima"></div>
     <div id="createPrivateField" class="field" style="display:none"><label>Юзернейм собеседника</label><input id="createPrivate" placeholder="anna"></div>
+    <div class="field"><label>Доп. настройки</label>
+      <label style="font-size:13px"><input type="checkbox" id="createPublic"> Публичный (есть @ссылка)</label>
+      <label style="font-size:13px"><input type="checkbox" id="createSecret"> Секретный чат (E2E, самоуничтожение)</label>
+      <input id="createSecretTtl" placeholder="TTL сек для секретного (0=выкл)" type="number" style="margin-top:6px;display:none">
+    </div>
     <div class="row"><button class="btn-ghost" onclick="closeModal('createModal')">Отмена</button><button class="btn-tg" onclick="doCreate()">Создать</button></div>
   </div>
 </div>
 
 <div id="profileModal" class="modal" onclick="if(event.target===this)closeModal('profileModal')">
   <div class="modal-card">
-    <h3>Настройки</h3>
+    <h3>Настройки профиля</h3>
     <div class="field"><label>Имя</label><input id="pfFirst"></div>
     <div class="field"><label>Фамилия</label><input id="pfLast"></div>
-    <div class="field"><label>Юзернейм</label><input id="pfUser"></div>
-    <div class="field"><label>О себе</label><textarea id="pfBio" rows="2"></textarea></div>
+    <div class="field"><label>Юзернейм @</label><input id="pfUser"></div>
+    <div class="field"><label>О себе (70 / 140 Premium)</label><textarea id="pfBio" rows="2"></textarea><textarea id="pfBioExtra" rows="2" placeholder="Расширенное (Premium)"></textarea></div>
     <div class="field"><label>Аватар URL</label><input id="pfAvatar"></div>
-    <div class="field"><label>Галочка</label>
-      <select id="pfBadge"><option value="">Нет</option><option value="blue">Синяя ✓</option><option value="gold">Золотая</option><option value="green">Зелёная</option><option value="premium">Premium</option></select>
-    </div>
+    <div class="field"><label>Галочка</label><select id="pfBadge"><option value="">Нет</option><option value="blue">Синяя ✓</option><option value="gold">Золотая</option><option value="green">Зелёная</option><option value="premium">Premium</option><option value="bot">Бот</option></select></div>
+    <div class="field"><label>Эмодзи-статус (Premium)</label><input id="pfEmoji" placeholder="✨"></div>
     <div class="row"><button class="btn-ghost" onclick="closeModal('profileModal')">Закрыть</button><button class="btn-tg" onclick="saveProfile()">Сохранить</button></div>
+  </div>
+</div>
+
+<div id="premiumModal" class="modal" onclick="if(event.target===this)closeModal('premiumModal')">
+  <div class="modal-card" style="max-width:520px">
+    <h3>⭐ Telegram Premium</h3>
+    <div id="premiumInfo" style="font-size:13px;line-height:1.6"></div>
+    <div class="row" style="margin-top:12px"><button class="btn-ghost" onclick="closeModal('premiumModal')">Закрыть</button><button id="premiumBtn" class="btn-tg" onclick="togglePremium()">Активировать</button></div>
+    <div style="margin-top:10px"><button class="btn-ghost" onclick="topupStars()">Пополнить Stars +500</button> <span id="starsInfo" style="font-size:13px"></span></div>
+  </div>
+</div>
+
+<div id="privacyModal" class="modal" onclick="if(event.target===this)closeModal('privacyModal')">
+  <div class="modal-card" style="max-width:520px;max-height:90vh;overflow:auto">
+    <h3>🔐 Приватность</h3>
+    <div id="privacyFields" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div class="row" style="margin-top:12px"><button class="btn-ghost" onclick="closeModal('privacyModal')">Закрыть</button><button class="btn-tg" onclick="savePrivacy()">Сохранить</button></div>
+    <div style="margin-top:10px;font-size:12px;color:#a8afb8">Близкие друзья: <input id="closeFriendsInput" placeholder="юзернеймы через запятую"><button class="btn-ghost" onclick="saveCloseFriends()">Сохранить</button></div>
+  </div>
+</div>
+
+<div id="businessModal" class="modal" onclick="if(event.target===this)closeModal('businessModal')">
+  <div class="modal-card">
+    <h3>💼 Бизнес-аккаунт</h3>
+    <label style="font-size:13px"><input type="checkbox" id="bizEnabled"> Включить бизнес-режим</label>
+    <div class="field"><label>Часы работы</label><input id="bizHours"></div>
+    <div class="field"><label>Адрес</label><input id="bizAddress"></div>
+    <div class="field"><label>Приветствие</label><textarea id="bizWelcome" rows="2"></textarea></div>
+    <div class="row"><button class="btn-ghost" onclick="closeModal('businessModal')">Закрыть</button><button class="btn-tg" onclick="saveBusiness()">Сохранить</button></div>
+  </div>
+</div>
+
+<div id="storiesModal" class="modal" onclick="if(event.target===this)closeModal('storiesModal')">
+  <div class="modal-card" style="max-width:420px">
+    <h3>🟣 Истории</h3>
+    <div id="storiesList" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <input id="storyCaption" placeholder="Подпись" style="flex:1;padding:8px;border-radius:8px;border:1px solid #243447;background:#242f3d;color:#fff">
+      <label style="font-size:12px"><input type="checkbox" id="storyIncog"> Инкогнито</label>
+      <button class="btn-tg" onclick="postStory()">Опубликовать</button>
+    </div>
+    <input id="storyFile" type="file" accept="image/*,video/*" style="margin-top:8px">
+  </div>
+</div>
+
+<div id="fragmentModal" class="modal" onclick="if(event.target===this)closeModal('fragmentModal')">
+  <div class="modal-card" style="max-width:520px">
+    <h3>🛒 Fragment — юзернеймы</h3>
+    <div id="fragmentList" style="display:flex;flex-direction:column;gap:8px"></div>
+    <p style="font-size:12px;color:#a8afb8;margin-top:8px">Покупка за Stars (коллекционные @имена)</p>
+  </div>
+</div>
+
+<div id="pollModal" class="modal" onclick="if(event.target===this)closeModal('pollModal')">
+  <div class="modal-card">
+    <h3>📊 Опрос</h3>
+    <div class="field"><label>Вопрос</label><input id="pollQ"></div>
+    <div class="field"><label>Варианты (через запятую)</label><input id="pollOpts" placeholder="Да, Нет, Не знаю"></div>
+    <div class="row"><button class="btn-ghost" onclick="closeModal('pollModal')">Отмена</button><button class="btn-tg" onclick="sendPoll()">Отправить</button></div>
+  </div>
+</div>
+
+<div id="communityModal" class="modal" onclick="if(event.target===this)closeModal('communityModal')">
+  <div class="modal-card">
+    <h3>🏘️ Новое сообщество</h3>
+    <div class="field"><label>Название</label><input id="comName"></div>
+    <div class="field"><label>Юзернейм</label><input id="comUser"></div>
+    <div class="field"><label>Описание</label><textarea id="comDesc"></textarea></div>
+    <div class="field"><label>Чаты (ID через запятую)</label><input id="comChats"></div>
+    <div class="field"><label>Боты (ID через запятую)</label><input id="comBots"></div>
+    <div class="row"><button class="btn-ghost" onclick="closeModal('communityModal')">Отмена</button><button class="btn-tg" onclick="doCreateCommunity()">Создать</button></div>
   </div>
 </div>
 
@@ -146,11 +250,11 @@
   <div class="modal-card" style="max-width:420px;text-align:center">
     <h3>Видеосообщение — кружок</h3>
     <video id="vcPreview" autoplay muted playsinline style="width:220px;height:220px;border-radius:50%;background:#000;object-fit:cover;margin:10px auto;display:block"></video>
-    <canvas id="vcCanvas" width="320" height="320" style="display:none"></canvas>
     <div class="row"><button class="btn-ghost" onclick="closeModal('videoModal')">Отмена</button><button id="vcRecBtn" class="btn-tg" onclick="toggleVcRec()">● Запись</button><button class="btn-tg" onclick="sendVc()">Отправить</button></div>
     <div id="vcStatus" style="font-size:12px;color:#a8afb8;margin-top:6px"></div>
   </div>
 </div>
+<div id="storyViewer" class="modal" onclick="closeModal('storyViewer')"><div style="position:relative;max-width:360px;width:100%"><img id="storyViewImg" style="width:100%;border-radius:12px"><div id="storyViewText" style="position:absolute;bottom:10px;left:10px;right:10px;color:#fff;text-shadow:0 1px 4px #000"></div></div></div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="app.js"></script>

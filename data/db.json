@@ -10,7 +10,32 @@
       "avatar": "",
       "badge": "blue",
       "online": 1,
-      "last_seen": 1795212259303
+      "last_seen": 1795212259303,
+      "premium": false,
+      "premium_until": null,
+      "stars": 500,
+      "business": {
+        "enabled": false,
+        "hours": "9:00-18:00",
+        "address": "",
+        "welcome": "Привет! Чем могу помочь?",
+        "quick_replies": []
+      },
+      "privacy": {
+        "phone": "nobody",
+        "last_seen": "contacts",
+        "avatar": "all",
+        "bio": "all",
+        "gifts": "all",
+        "calls": "all",
+        "messages": "all",
+        "add_to_groups": "all",
+        "forward_link": "all",
+        "close_friends": []
+      },
+      "limits": null,
+      "bio_extra": "",
+      "emoji_status": ""
     },
     {
       "id": "u2",
@@ -22,7 +47,32 @@
       "avatar": "",
       "badge": "premium",
       "online": 1,
-      "last_seen": 1795212259303
+      "last_seen": 1795212259303,
+      "premium": true,
+      "premium_until": 1797804772569,
+      "stars": 500,
+      "business": {
+        "enabled": false,
+        "hours": "9:00-18:00",
+        "address": "",
+        "welcome": "Привет! Чем могу помочь?",
+        "quick_replies": []
+      },
+      "privacy": {
+        "phone": "nobody",
+        "last_seen": "contacts",
+        "avatar": "all",
+        "bio": "all",
+        "gifts": "all",
+        "calls": "all",
+        "messages": "all",
+        "add_to_groups": "all",
+        "forward_link": "all",
+        "close_friends": []
+      },
+      "limits": null,
+      "bio_extra": "",
+      "emoji_status": ""
     },
     {
       "id": "u3",
@@ -34,7 +84,32 @@
       "avatar": "",
       "badge": "gold",
       "online": 1,
-      "last_seen": 1795212259303
+      "last_seen": 1795212259303,
+      "premium": true,
+      "premium_until": 1797804772569,
+      "stars": 500,
+      "business": {
+        "enabled": false,
+        "hours": "9:00-18:00",
+        "address": "",
+        "welcome": "Привет! Чем могу помочь?",
+        "quick_replies": []
+      },
+      "privacy": {
+        "phone": "nobody",
+        "last_seen": "contacts",
+        "avatar": "all",
+        "bio": "all",
+        "gifts": "all",
+        "calls": "all",
+        "messages": "all",
+        "add_to_groups": "all",
+        "forward_link": "all",
+        "close_friends": []
+      },
+      "limits": null,
+      "bio_extra": "",
+      "emoji_status": ""
     },
     {
       "id": "u4",
@@ -46,7 +121,32 @@
       "avatar": "",
       "badge": "green",
       "online": 1,
-      "last_seen": 1795212259303
+      "last_seen": 1795212259303,
+      "premium": true,
+      "premium_until": 1797804772569,
+      "stars": 500,
+      "business": {
+        "enabled": false,
+        "hours": "9:00-18:00",
+        "address": "",
+        "welcome": "Привет! Чем могу помочь?",
+        "quick_replies": []
+      },
+      "privacy": {
+        "phone": "nobody",
+        "last_seen": "contacts",
+        "avatar": "all",
+        "bio": "all",
+        "gifts": "all",
+        "calls": "all",
+        "messages": "all",
+        "add_to_groups": "all",
+        "forward_link": "all",
+        "close_friends": []
+      },
+      "limits": null,
+      "bio_extra": "",
+      "emoji_status": ""
     },
     {
       "id": "u5",
@@ -58,7 +158,32 @@
       "avatar": "",
       "badge": "",
       "online": 1,
-      "last_seen": 1795212259303
+      "last_seen": 1795212259303,
+      "premium": false,
+      "premium_until": null,
+      "stars": 500,
+      "business": {
+        "enabled": false,
+        "hours": "9:00-18:00",
+        "address": "",
+        "welcome": "Привет! Чем могу помочь?",
+        "quick_replies": []
+      },
+      "privacy": {
+        "phone": "nobody",
+        "last_seen": "contacts",
+        "avatar": "all",
+        "bio": "all",
+        "gifts": "all",
+        "calls": "all",
+        "messages": "all",
+        "add_to_groups": "all",
+        "forward_link": "all",
+        "close_friends": []
+      },
+      "limits": null,
+      "bio_extra": "",
+      "emoji_status": ""
     },
     {
       "id": "u6",
@@ -70,7 +195,32 @@
       "avatar": "",
       "badge": "blue",
       "online": 1,
-      "last_seen": 1795212259303
+      "last_seen": 1795212259303,
+      "premium": false,
+      "premium_until": null,
+      "stars": 500,
+      "business": {
+        "enabled": false,
+        "hours": "9:00-18:00",
+        "address": "",
+        "welcome": "Привет! Чем могу помочь?",
+        "quick_replies": []
+      },
+      "privacy": {
+        "phone": "nobody",
+        "last_seen": "contacts",
+        "avatar": "all",
+        "bio": "all",
+        "gifts": "all",
+        "calls": "all",
+        "messages": "all",
+        "add_to_groups": "all",
+        "forward_link": "all",
+        "close_friends": []
+      },
+      "limits": null,
+      "bio_extra": "",
+      "emoji_status": ""
     }
   ],
   "chats": [
@@ -93,7 +243,23 @@
           "role": "member"
         }
       ],
-      "pinned_msg": null
+      "pinned_msg": null,
+      "is_public": false,
+      "invite_link": "",
+      "history_visible": true,
+      "permissions": {
+        "send_text": true,
+        "send_media": true,
+        "send_stickers": true,
+        "send_gifs": true,
+        "send_links": true,
+        "embed": true
+      },
+      "admin_rights": {},
+      "slow_mode": 0,
+      "auto_delete": 0,
+      "is_secret": false,
+      "secret_ttl": 0
     },
     {
       "id": "c2",
@@ -122,7 +288,23 @@
           "role": "member"
         }
       ],
-      "pinned_msg": null
+      "pinned_msg": null,
+      "is_public": true,
+      "invite_link": "",
+      "history_visible": true,
+      "permissions": {
+        "send_text": true,
+        "send_media": true,
+        "send_stickers": true,
+        "send_gifs": true,
+        "send_links": true,
+        "embed": true
+      },
+      "admin_rights": {},
+      "slow_mode": 0,
+      "auto_delete": 0,
+      "is_secret": false,
+      "secret_ttl": 0
     },
     {
       "id": "c3",
@@ -155,7 +337,23 @@
           "role": "member"
         }
       ],
-      "pinned_msg": null
+      "pinned_msg": null,
+      "is_public": true,
+      "invite_link": "",
+      "history_visible": true,
+      "permissions": {
+        "send_text": true,
+        "send_media": true,
+        "send_stickers": true,
+        "send_gifs": true,
+        "send_links": true,
+        "embed": true
+      },
+      "admin_rights": {},
+      "slow_mode": 0,
+      "auto_delete": 0,
+      "is_secret": false,
+      "secret_ttl": 0
     },
     {
       "id": "c4",
@@ -176,7 +374,23 @@
           "role": "member"
         }
       ],
-      "pinned_msg": null
+      "pinned_msg": null,
+      "is_public": false,
+      "invite_link": "",
+      "history_visible": true,
+      "permissions": {
+        "send_text": true,
+        "send_media": true,
+        "send_stickers": true,
+        "send_gifs": true,
+        "send_links": true,
+        "embed": true
+      },
+      "admin_rights": {},
+      "slow_mode": 0,
+      "auto_delete": 0,
+      "is_secret": false,
+      "secret_ttl": 0
     }
   ],
   "messages": [
@@ -373,5 +587,93 @@
       "animation": "sparkle"
     }
   ],
-  "reactions": []
+  "reactions": [],
+  "communities": [
+    {
+      "id": "com1",
+      "name": "Tele Ecosystem",
+      "username": "tele_eco",
+      "description": "Каналы + группы + боты Tele в одном месте",
+      "owner_id": "u4",
+      "chat_ids": [
+        "c2",
+        "c3"
+      ],
+      "bot_ids": [
+        "b1"
+      ],
+      "hidden_chat_ids": [],
+      "member_ids": [
+        "u1",
+        "u2",
+        "u3",
+        "u4",
+        "u6"
+      ],
+      "created": 1795212780898
+    }
+  ],
+  "bots": [
+    {
+      "id": "b1",
+      "username": "gpt_helper",
+      "name": "GPT Helper",
+      "description": "AI-бот отвечает в любом чате через @gpt_helper",
+      "type": "ai",
+      "inline": true,
+      "ai": true,
+      "streaming": true,
+      "owner_id": "u4",
+      "avatar": ""
+    },
+    {
+      "id": "b2",
+      "username": "weather_bot",
+      "name": "Погода",
+      "description": "Прогноз погоды",
+      "type": "content",
+      "inline": true,
+      "ai": false,
+      "streaming": false,
+      "owner_id": "u4",
+      "avatar": ""
+    },
+    {
+      "id": "b3",
+      "username": "pay_bot",
+      "name": "Платежи",
+      "description": "Приём донатов через Stars",
+      "type": "payment",
+      "inline": false,
+      "ai": false,
+      "streaming": false,
+      "owner_id": "u4",
+      "avatar": ""
+    },
+    {
+      "id": "b4",
+      "username": "reminder_bot",
+      "name": "Напоминания",
+      "description": "Таймеры",
+      "type": "reminder",
+      "inline": false,
+      "ai": false,
+      "streaming": false,
+      "owner_id": "u4",
+      "avatar": ""
+    }
+  ],
+  "stories": [
+    {
+      "id": "s1",
+      "user_id": "u2",
+      "media": "",
+      "caption": "Новый дизайн 🎨",
+      "created": 1795209180898,
+      "expires": 1795295580898,
+      "views": 124,
+      "incognito": false
+    }
+  ],
+  "stars_tx": []
 }
