@@ -1,0 +1,377 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "phone": "+79990000001",
+      "first_name": "Алексей",
+      "last_name": "Волков",
+      "username": "alex",
+      "bio": "Люблю код и кофе",
+      "avatar": "",
+      "badge": "blue",
+      "online": 1,
+      "last_seen": 1795212259303
+    },
+    {
+      "id": "u2",
+      "phone": "+79990000002",
+      "first_name": "Мария",
+      "last_name": "Ковалева",
+      "username": "maria",
+      "bio": "Дизайнер · Figma ♥",
+      "avatar": "",
+      "badge": "premium",
+      "online": 1,
+      "last_seen": 1795212259303
+    },
+    {
+      "id": "u3",
+      "phone": "+79990000003",
+      "first_name": "Дима",
+      "last_name": "Стартап",
+      "username": "dima",
+      "bio": "Канал про стартапы",
+      "avatar": "",
+      "badge": "gold",
+      "online": 1,
+      "last_seen": 1795212259303
+    },
+    {
+      "id": "u4",
+      "phone": "+79990000004",
+      "first_name": "Tele",
+      "last_name": "Поддержка",
+      "username": "support",
+      "bio": "Официальная поддержка Tele",
+      "avatar": "",
+      "badge": "green",
+      "online": 1,
+      "last_seen": 1795212259303
+    },
+    {
+      "id": "u5",
+      "phone": "+79990000005",
+      "first_name": "Анна",
+      "last_name": "",
+      "username": "anna",
+      "bio": "",
+      "avatar": "",
+      "badge": "",
+      "online": 1,
+      "last_seen": 1795212259303
+    },
+    {
+      "id": "u6",
+      "phone": "+79990000006",
+      "first_name": "Иван",
+      "last_name": "Петров",
+      "username": "ivan",
+      "bio": "",
+      "avatar": "",
+      "badge": "blue",
+      "online": 1,
+      "last_seen": 1795212259303
+    }
+  ],
+  "chats": [
+    {
+      "id": "c1",
+      "type": "private",
+      "title": "",
+      "username": "",
+      "avatar": "",
+      "description": "",
+      "owner_id": "u1",
+      "created": 1795212259303,
+      "members": [
+        {
+          "user_id": "u1",
+          "role": "member"
+        },
+        {
+          "user_id": "u2",
+          "role": "member"
+        }
+      ],
+      "pinned_msg": null
+    },
+    {
+      "id": "c2",
+      "type": "group",
+      "title": "Дизайн-чат",
+      "username": "designchat",
+      "avatar": "",
+      "description": "Обсуждаем UI",
+      "owner_id": "u1",
+      "created": 1795212259303,
+      "members": [
+        {
+          "user_id": "u1",
+          "role": "admin"
+        },
+        {
+          "user_id": "u2",
+          "role": "member"
+        },
+        {
+          "user_id": "u3",
+          "role": "member"
+        },
+        {
+          "user_id": "u6",
+          "role": "member"
+        }
+      ],
+      "pinned_msg": null
+    },
+    {
+      "id": "c3",
+      "type": "channel",
+      "title": "Новости Tele",
+      "username": "telenews",
+      "avatar": "",
+      "description": "Официальный канал Tele",
+      "owner_id": "u4",
+      "created": 1795212259303,
+      "members": [
+        {
+          "user_id": "u1",
+          "role": "member"
+        },
+        {
+          "user_id": "u2",
+          "role": "member"
+        },
+        {
+          "user_id": "u3",
+          "role": "member"
+        },
+        {
+          "user_id": "u4",
+          "role": "admin"
+        },
+        {
+          "user_id": "u6",
+          "role": "member"
+        }
+      ],
+      "pinned_msg": null
+    },
+    {
+      "id": "c4",
+      "type": "private",
+      "title": "",
+      "username": "",
+      "avatar": "",
+      "description": "",
+      "owner_id": "u1",
+      "created": 1795212259303,
+      "members": [
+        {
+          "user_id": "u1",
+          "role": "member"
+        },
+        {
+          "user_id": "u4",
+          "role": "member"
+        }
+      ],
+      "pinned_msg": null
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "chat_id": "c1",
+      "sender_id": "u2",
+      "type": "text",
+      "content": "Привет! Как тебе новый Tele?",
+      "caption": "",
+      "reply_to": null,
+      "forwarded_from": null,
+      "forwarded_name": "",
+      "gift_id": null,
+      "location_lat": null,
+      "location_lon": null,
+      "file_name": null,
+      "file_size": null,
+      "mime": null,
+      "duration": null,
+      "waveform": null,
+      "pinned": 0,
+      "edited": 0,
+      "created": 1795211259303,
+      "views": 0
+    },
+    {
+      "id": "m2",
+      "chat_id": "c1",
+      "sender_id": "u1",
+      "type": "text",
+      "content": "Очень круто 😍 Прям как в оригинале",
+      "caption": "",
+      "reply_to": "m1",
+      "forwarded_from": null,
+      "forwarded_name": "",
+      "gift_id": null,
+      "location_lat": null,
+      "location_lon": null,
+      "file_name": null,
+      "file_size": null,
+      "mime": null,
+      "duration": null,
+      "waveform": null,
+      "pinned": 0,
+      "edited": 0,
+      "created": 1795211359303,
+      "views": 0
+    },
+    {
+      "id": "m3",
+      "chat_id": "c2",
+      "sender_id": "u3",
+      "type": "text",
+      "content": "Ребята, зацените концепт",
+      "caption": "",
+      "reply_to": null,
+      "forwarded_from": null,
+      "forwarded_name": "",
+      "gift_id": null,
+      "location_lat": null,
+      "location_lon": null,
+      "file_name": null,
+      "file_size": null,
+      "mime": null,
+      "duration": null,
+      "waveform": null,
+      "pinned": 0,
+      "edited": 0,
+      "created": 1795211459303,
+      "views": 0
+    },
+    {
+      "id": "m4",
+      "chat_id": "c3",
+      "sender_id": "u4",
+      "type": "text",
+      "content": "Добро пожаловать в Tele! Подписывайтесь на обновления.",
+      "caption": "",
+      "reply_to": null,
+      "forwarded_from": null,
+      "forwarded_name": "",
+      "gift_id": null,
+      "location_lat": null,
+      "location_lon": null,
+      "file_name": null,
+      "file_size": null,
+      "mime": null,
+      "duration": null,
+      "waveform": null,
+      "pinned": 1,
+      "edited": 0,
+      "created": 1795211559303,
+      "views": 1234
+    }
+  ],
+  "sessions": {},
+  "codes": {},
+  "gifts": [
+    {
+      "id": "g1",
+      "name": "Сердце",
+      "emoji": "💖",
+      "price": 500,
+      "color": "#ff3b5c",
+      "animation": "pulse"
+    },
+    {
+      "id": "g2",
+      "name": "Роза",
+      "emoji": "🌹",
+      "price": 250,
+      "color": "#e11d48",
+      "animation": "rotate"
+    },
+    {
+      "id": "g3",
+      "name": "Кубок",
+      "emoji": "🏆",
+      "price": 1000,
+      "color": "#eab308",
+      "animation": "bounce"
+    },
+    {
+      "id": "g4",
+      "name": "Ракета",
+      "emoji": "🚀",
+      "price": 750,
+      "color": "#6366f1",
+      "animation": "fly"
+    },
+    {
+      "id": "g5",
+      "name": "Огонь",
+      "emoji": "🔥",
+      "price": 300,
+      "color": "#f97316",
+      "animation": "flicker"
+    },
+    {
+      "id": "g6",
+      "name": "Алмаз",
+      "emoji": "💎",
+      "price": 2000,
+      "color": "#06b6d4",
+      "animation": "shine"
+    },
+    {
+      "id": "g7",
+      "name": "Клоун",
+      "emoji": "🤡",
+      "price": 150,
+      "color": "#a855f7",
+      "animation": "wobble"
+    },
+    {
+      "id": "g8",
+      "name": "Торт",
+      "emoji": "🎂",
+      "price": 400,
+      "color": "#ec4899",
+      "animation": "pop"
+    },
+    {
+      "id": "g9",
+      "name": "Медведь",
+      "emoji": "🧸",
+      "price": 600,
+      "color": "#f59e0b",
+      "animation": "hug"
+    },
+    {
+      "id": "g10",
+      "name": "Звезда",
+      "emoji": "⭐",
+      "price": 350,
+      "color": "#facc15",
+      "animation": "twinkle"
+    },
+    {
+      "id": "g11",
+      "name": "Подарок",
+      "emoji": "🎁",
+      "price": 200,
+      "color": "#22c55e",
+      "animation": "box"
+    },
+    {
+      "id": "g12",
+      "name": "Кольцо",
+      "emoji": "💍",
+      "price": 1500,
+      "color": "#e879f9",
+      "animation": "sparkle"
+    }
+  ],
+  "reactions": []
+}
