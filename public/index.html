@@ -7,6 +7,36 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script>
+// fallback auth — работает даже если app.js не загрузился
+async function sendCode(){
+  const c=document.getElementById('country'); const country=c?c.value:'+7';
+  let phone=(document.getElementById('phone')?.value||'').trim();
+  if(!phone.startsWith('+')) phone=country+phone.replace(/\D/g,'');
+  if(phone.length<8) return alert('Введи номер');
+  try{
+    const r=await fetch('/api/auth/send-code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone})}).then(x=>x.json());
+    if(r.ok){
+      document.getElementById('authStep1').style.display='none';
+      const s2=document.getElementById('authStep2'); if(s2) s2.style.display='block';
+      const dc=document.getElementById('devCode'); if(dc){ dc.style.display='block'; dc.innerHTML='Код: <b style="font-size:18px;cursor:pointer" onclick="document.getElementById(\'code\').value=\''+r.dev_code+'\'">'+r.dev_code+'</b> — нажми чтобы вставить'; }
+      const p=document.getElementById('phone'); if(p) p.dataset.phone=phone;
+      console.log('sendCode ok',r.dev_code);
+    } else alert('Ошибка: '+(r.error||JSON.stringify(r)));
+  }catch(e){ alert('Сеть: '+e.message); console.error(e); }
+}
+async function quickDemo(){
+  const phone='+79990000001';
+  try{
+    const s=await fetch('/api/auth/send-code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone})}).then(r=>r.json());
+    if(!s.ok) return alert(JSON.stringify(s));
+    const v=await fetch('/api/auth/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone, code:s.dev_code})}).then(r=>r.json());
+    if(v.token){ localStorage.setItem('tg_token',v.token); location.reload(); } else alert(JSON.stringify(v));
+  }catch(e){ alert(e.message); }
+}
+function clearToken(){ localStorage.removeItem('tg_token'); location.reload(); }
+console.log('fallback auth loaded');
+</script>
 </head>
 <body>
 
@@ -18,7 +48,7 @@
     <div id="authStep1" class="auth-form">
       <div class="auth-field"><label>Страна</label><select id="country"><option value="+7">Россия +7</option><option value="+375">Беларусь +375</option><option value="+380">Украина +380</option><option value="+77">Казахстан +77</option><option value="+998">Узбекистан +998</option><option value="+1">USA +1</option></select></div>
       <div class="auth-field"><label>Номер телефона</label><input id="phone" placeholder="+7 999 000 00 00" value="+79990000001"></div>
-      <div style="padding:12px"><button class="btn-tg" onclick="sendCode()">Далее →</button><div id="devCode" class="code-hint" style="display:none"></div><div id="demoChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px"></div></div>
+      <div style="padding:12px"><button type="button" id="nextBtn" class="btn-tg" onclick="sendCode()" style="position:relative;z-index:10;pointer-events:auto">Далее →</button><div id="devCode" class="code-hint" style="display:none"></div><div id="demoChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px"></div></div>
     </div>
     <div id="authStep2" class="auth-form" style="display:none">
       <div class="auth-field"><label>Код из SMS</label><div style="display:flex;gap:6px"><input id="code" placeholder="12345" maxlength="5" style="flex:1"><button class="btn-ghost" onclick="pasteCode()" title="Вставить код">📋</button></div></div>
@@ -258,6 +288,6 @@
 <div id="storyViewer" class="modal" onclick="closeModal('storyViewer')"><div style="position:relative;max-width:360px;width:100%"><img id="storyViewImg" style="width:100%;border-radius:12px"><div id="storyViewText" style="position:absolute;bottom:10px;left:10px;right:10px;color:#fff;text-shadow:0 1px 4px #000"></div></div></div>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="app.js?v=3"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>
